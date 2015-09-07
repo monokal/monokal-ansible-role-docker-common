@@ -1,5 +1,18 @@
 ---
 
+# UFW
+
+- name: ufw_allow
+  ufw:
+    rule:      allow
+    port:      "{{ item.port }}"
+    proto:     "{{ item.proto }}"
+    direction: "{{ item.direction }}"
+  with_items:
+    # Outbound
+    - { port: "{{ docker_registry_port }}", proto: 'tcp', direction: 'out'} # Docker Registry
+  register: ufw_allow
+
 # APT keys
 
 ## Until Ansible 2.0 the apt_key module is broken for the Docker repo. See:
